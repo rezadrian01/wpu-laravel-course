@@ -90,7 +90,7 @@ class PostController extends Controller
         ]);
 
         // Redirect
-        return redirect('/dashboard')->with(['success' => 'Post created!']);
+        return redirect('/dashboard')->with(['success' => 'Post updated!']);
     }
 
     /**
