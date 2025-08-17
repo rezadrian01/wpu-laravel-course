@@ -13,6 +13,8 @@ class Post extends Model
     use HasFactory;
     protected $with = ['author', 'category'];
 
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

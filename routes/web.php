@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
@@ -27,10 +28,15 @@ Route::get('/contact', function () {
     return view('contact', ["title" => "Contact Page"]);
 });
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('/dashboard', [PostController::class, 'index'])->name('dashboard');
+    Route::post('dashboard', [PostController::class, 'store']);
+    Route::get('/dashboard/create', [PostController::class, 'create']);
+    Route::get('/dashboard/{post:slug}/edit', [PostController::class, 'edit']);
+    Route::get('/dashboard/{post:slug}', [PostController::class, 'show']);
+    Route::patch('/dashboard/{post:slug}', [PostController::class, 'update']);
+    Route::delete('/dashboard/{post:slug}', [PostController::class, 'destroy']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
